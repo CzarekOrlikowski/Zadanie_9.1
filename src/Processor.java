@@ -50,28 +50,31 @@ public class Processor extends Component implements SpeedUp {
     }
 
     @Override
-    public void speedUpElement(Computer computer) {
+    public void speedUpElement() {
         Scanner scan = new Scanner(System.in);
         int newFrequency;
+        double newTemperature;
         boolean conditionCheck;
 
         do {
             System.out.print("Podaj nową czestotliwość procesora: ");
             newFrequency = scan.nextInt();
-            conditionCheck = temperatureTest(newFrequency, computer);
+            newTemperature = getCurrentTemperature() +
+                    PROCESSOR_TEMPERATURE_RISE_PER_MHZ * (newFrequency - getCurrentFrequency());
+            conditionCheck = temperatureTest(newTemperature);
 
             if (conditionCheck) {
-                computer.getProcessor().setCurrentFrequency(newFrequency);
+                setCurrentFrequency(newFrequency);
+                setCurrentTemperature(newTemperature);
             } else {
-                System.out.println("Ryzyko przegrzania procesora! Częstotliwość bez zmian!");
+                System.out.println("Ryzyko przegrzania procesora! Częstotlliwość bez zmian!");
             }
+
         } while (!conditionCheck);
     }
 
-    public static boolean temperatureTest(int newFrequency, Computer computer) {
-        double temperatureRise = computer.getProcessor().getCurrentTemperature() +
-                PROCESSOR_TEMPERATURE_RISE_PER_MHZ * (newFrequency - computer.getProcessor().getCurrentFrequency());
-        if (temperatureRise <= computer.getProcessor().getMaxTemperature()) {
+    public boolean temperatureTest(double newTemperature) {
+        if (newTemperature <= getMaxTemperature()) {
             return true;
         } else return false;
     }

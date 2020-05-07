@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
 public class Memory extends Component implements SpeedUp {
-    int size;
-    int defaultFrequency;
-    int currentFrequency;
-    double currentTemperature;
-    double maxTemperature;
+    private int size;
+    private int defaultFrequency;
+    private int currentFrequency;
+    private double currentTemperature;
+    private double maxTemperature;
 
     public static final double MEMORY_TEMPERATURE_RISE_PER_MHZ = 0.15;
 
@@ -64,18 +64,22 @@ public class Memory extends Component implements SpeedUp {
     }
 
     @Override
-    public void speedUpElement(Computer computer) {
+    public void speedUpElement() {
         Scanner scan = new Scanner(System.in);
         int newFrequency;
+        double newTemperature;
         boolean conditionCheck;
 
         do {
             System.out.print("Podaj nową czestotliwość pamięci: ");
             newFrequency = scan.nextInt();
-            conditionCheck = temperatureTest(newFrequency, computer);
+            newTemperature = getCurrentTemperature() +
+                    MEMORY_TEMPERATURE_RISE_PER_MHZ * (newFrequency - getCurrentFrequency());
+            conditionCheck = temperatureTest(newTemperature);
 
             if (conditionCheck) {
-                computer.getMemory().setCurrentFrequency(newFrequency);
+                setCurrentFrequency(newFrequency);
+                setCurrentTemperature(newTemperature);
             } else {
                 System.out.println("Ryzyko przegrzania pamięci! Częstotlliwość bez zmian!");
             }
@@ -83,10 +87,8 @@ public class Memory extends Component implements SpeedUp {
         } while (!conditionCheck);
     }
 
-    public static boolean temperatureTest(int newFrequency, Computer computer) {
-        double temperatureRise = computer.getMemory().getCurrentTemperature() +
-                MEMORY_TEMPERATURE_RISE_PER_MHZ * (newFrequency - computer.getMemory().getCurrentFrequency());
-        if (temperatureRise <= computer.getMemory().getMaxTemperature()) {
+    public boolean temperatureTest(double newTemperature) {
+        if (newTemperature <= getMaxTemperature()) {
             return true;
         } else return false;
     }

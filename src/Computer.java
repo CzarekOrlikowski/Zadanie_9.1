@@ -38,9 +38,11 @@ public class Computer {
                 "Aktualna konfiguracja komputera: \n" +
                 "procesor: " + getProcessor().getModelName() + ", " + getProcessor().getProducerName() + "\n" +
                 "częstotliwość: " + getProcessor().getCurrentFrequency() + "\n" +
+                "temperatura: " + getProcessor().getCurrentTemperature() + "\n" +
                 "pamięć: " + getMemory().getModelName() + ", " + getMemory().getProducerName() + "\n" +
                 "rozmiar: " + getMemory().getSize() + "\n" +
                 "częstotliwość: " + getMemory().getCurrentFrequency() + "\n" +
+                "temperatura: " + getMemory().getCurrentTemperature() + "\n" +
                 "dysk: " + getDisk().getModelName() + ", " + getDisk().getProducerName() + "\n" +
                 "rozmiar: " + getDisk().getCapacity() + "\n";
 

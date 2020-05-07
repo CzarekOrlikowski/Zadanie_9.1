@@ -1,3 +1,3 @@
 public interface SpeedUp {
-    public void speedUpElement(Computer computer);
+    public void speedUpElement();
 }

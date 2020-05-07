@@ -10,8 +10,8 @@ public class ComputerTest {
         Computer computer = new Computer(processor, memory, disk);
         System.out.println(computer.showInfo());
 
-        processor.speedUpElement(computer);
-        memory.speedUpElement(computer);
+        processor.speedUpElement();
+        memory.speedUpElement();
         System.out.println(computer.showInfo());
     }
 }

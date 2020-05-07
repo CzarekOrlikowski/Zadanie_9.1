@@ -1,7 +1,7 @@
 public abstract class Component {
-    String modelName;
-    String producerName;
-    String serialNumber;
+    private String modelName;
+    private String producerName;
+    private String serialNumber;
 
     public Component(String modelName, String producerName, String serialNumber) {
         this.modelName = modelName;

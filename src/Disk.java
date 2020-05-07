@@ -1,5 +1,5 @@
 public class Disk extends Component{
-    double capacity;
+    private double capacity;
 
     public Disk(String modelName, String producerName, String serialNumber, double capacity) {
         super(modelName, producerName, serialNumber);
