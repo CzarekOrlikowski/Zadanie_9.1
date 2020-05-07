@@ -66,18 +66,24 @@ public class Memory extends Component implements SpeedUp {
     @Override
     public void speedUpElement(Computer computer) {
         Scanner scan = new Scanner(System.in);
-        System.out.print("Podaj nową czestotliwość pamięci: ");
-        int newFrequency = scan.nextInt();
+        int newFrequency;
+        boolean conditionCheck;
 
-        if (temperatureTest(newFrequency, computer)) {
-            computer.getMemory().setCurrentFrequency(newFrequency);
-        } else {
-            System.out.println("Ryzyko przegrzania pamięci! Częstotlliwość bez zmian!");
-        }
+        do {
+            System.out.print("Podaj nową czestotliwość pamięci: ");
+            newFrequency = scan.nextInt();
+            conditionCheck = temperatureTest(newFrequency, computer);
 
+            if (conditionCheck) {
+                computer.getMemory().setCurrentFrequency(newFrequency);
+            } else {
+                System.out.println("Ryzyko przegrzania pamięci! Częstotlliwość bez zmian!");
+            }
+
+        } while (!conditionCheck);
     }
 
-    public boolean temperatureTest(int newFrequency, Computer computer) {
+    public static boolean temperatureTest(int newFrequency, Computer computer) {
         double temperatureRise = computer.getMemory().getCurrentTemperature() +
                 MEMORY_TEMPERATURE_RISE_PER_MHZ * (newFrequency - computer.getMemory().getCurrentFrequency());
         if (temperatureRise <= computer.getMemory().getMaxTemperature()) {

@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Processor extends Component implements SpeedUp{
+public class Processor extends Component implements SpeedUp {
     private int defaultFrequency;
     private int currentFrequency;
     private double currentTemperature;
@@ -52,16 +52,23 @@ public class Processor extends Component implements SpeedUp{
     @Override
     public void speedUpElement(Computer computer) {
         Scanner scan = new Scanner(System.in);
-        System.out.print("Podaj nową czestotliwość procesora: ");
-        int newFrequency = scan.nextInt();
+        int newFrequency;
+        boolean conditionCheck;
 
-        if (temperatureTest(newFrequency, computer)) {
-            computer.getProcessor().setCurrentFrequency(newFrequency);
-        } else {
-            System.out.println("Ryzyko przegrzania procesora! Częstotliwość bez zmian!");
-        }
+        do {
+            System.out.print("Podaj nową czestotliwość procesora: ");
+            newFrequency = scan.nextInt();
+            conditionCheck = temperatureTest(newFrequency, computer);
+
+            if (conditionCheck) {
+                computer.getProcessor().setCurrentFrequency(newFrequency);
+            } else {
+                System.out.println("Ryzyko przegrzania procesora! Częstotliwość bez zmian!");
+            }
+        } while (!conditionCheck);
     }
-    public boolean temperatureTest(int newFrequency, Computer computer) {
+
+    public static boolean temperatureTest(int newFrequency, Computer computer) {
         double temperatureRise = computer.getProcessor().getCurrentTemperature() +
                 PROCESSOR_TEMPERATURE_RISE_PER_MHZ * (newFrequency - computer.getProcessor().getCurrentFrequency());
         if (temperatureRise <= computer.getProcessor().getMaxTemperature()) {
